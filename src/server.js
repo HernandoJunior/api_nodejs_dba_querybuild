@@ -1,28 +1,13 @@
 const express = require("express")
 
-const app = express();
+const routes = require("./routes")
+//Automaticamente ele identifica o arquivo index como principal
 
-// /ROUTE PARAMS
-// Os parametros são obrigatorios
-app.get('/message/:id/:user', (request, response) => {
-  //DESESTRUTURAÇÃO DA ROTA
-  const { id , user } = request.params;
+app = express();
+app.use(express.json());
 
-  response.send(
-    `Mensagem ID: ${id}
-    Para o usuario: ${user}`)
-})
-
-// QUERY PARAMS 
-// exemplo: 
-// https://enderecoservidor.com.br/users?page=2&limite=10
-
-app.get('/users', (request, response) => {
-  const { page, limit } = request.query;
-  
-  response.send (`Página: ${ page }. Mostrar:${ limit }`)
-})
-
+//Usando as rotas criadas
+app.use(routes)
 
 const PORT = 3333;
 app.listen(PORT, () => {

@@ -1,0 +1,11 @@
+## 5 metódos para um controller (se passar de 5 metódos, crie outro controller):
+
+  1. index - get para listar varios registros
+
+  2. show - GET para exibir um registro especifico
+
+  3. create - POST para criar um registro
+
+  4. update - PUT para atualizar um registro
+
+  5. delete - DELETE para remover um registro

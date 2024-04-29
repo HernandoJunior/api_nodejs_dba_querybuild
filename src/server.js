@@ -1,5 +1,9 @@
 require('express-async-errors')
+
+const database = require("./database/sqlite")
+
 const AppError = require('./utils/AppError')
+
 const express = require('express')
 //Automaticamente ele identifica o arquivo index como principal
 const routes = require('./routes')
@@ -9,6 +13,8 @@ app.use(express.json())
 
 //Usando as rotas criadas
 app.use(routes)
+
+database()
 
 //CRIAÇÃO DA MENSAGEM DE ERROR
 app.use(( error, request, response, next) => {

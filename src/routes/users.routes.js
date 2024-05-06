@@ -9,10 +9,6 @@ const constrollerUser = new UsersControllers();
 function myMiddleware(request, response, next){
   console.log("Voce passou pelo Middleware")
 
-  if(!request.body.isAdmin){
-    return response.status(401).json({ message: "user unauthorized "})
-  }
-
   next();
 }
 
@@ -24,5 +20,6 @@ router.use(myMiddleware)
 
 
 router.post('/', constrollerUser.create)
+router.put('/:id', constrollerUser.uptade)
 
 module.exports = router;

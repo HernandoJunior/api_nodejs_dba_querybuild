@@ -11,25 +11,27 @@ const routes = require('./routes')
 const app = express()
 app.use(express.json())
 
+
 //Usando as rotas criadas
 app.use(routes)
 
+
 migrationRun()
 
-//CRIAÇÃO DA MENSAGEM DE ERROR
-// app.use(( error, request, response, next) => {
-//   if(error instanceof AppError){
-//     return response.status(error.statusCode).json({
-//         status: "error",
-//         message: error.message,
-//     })
-//   }
+// CRIAÇÃO DA MENSAGEM DE ERROR
+app.use(( error, request, response, next) => {
+  if(!error instanceof AppError){
+    return response.status(error.statusCode).json({
+        status: "error",
+        message: error.message,
+    })
+  }
+  return response.status(error.statusCode).json({
+    status: "error",
+    message: `${error.message}`,
+    })
+  })
 
-//   return response.status(500).json({
-//     status: "error",
-//     message: "Internal server error",
-//     })
-// })
   
 
 const PORT = 3333

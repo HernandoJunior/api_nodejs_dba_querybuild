@@ -1,11 +1,12 @@
-class AppError{
-  message;
-  statusCode;
-
-  //METODO CARREGADO AUTIMATICAMENTE QUANDO INSTANCIAR
-  constructor (message, statusCode = 400){
+class AppError {
+  constructor(message, statusCode = 400) {
+    console.log(message, statusCode)
     this.message = message;
     this.statusCode = statusCode;
+  }
+
+  toString() {
+    return `${this.message}`;
   }
 }
 

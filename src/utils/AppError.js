@@ -1,6 +1,5 @@
 class AppError {
   constructor(message, statusCode = 400) {
-    console.log(message, statusCode)
     this.message = message;
     this.statusCode = statusCode;
   }

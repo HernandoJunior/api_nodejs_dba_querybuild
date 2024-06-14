@@ -26,6 +26,7 @@ app.use(( error, request, response, next) => {
         message: error.message,
     })
   }
+
   return response.status(error.statusCode).json({
     status: "error",
     message: `${error.message}`,

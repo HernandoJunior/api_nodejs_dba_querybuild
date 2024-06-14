@@ -1,6 +1,6 @@
 const { verify } = require('jsonwebtoken');
 const AppError = require('../utils/AppError');
-const { authConfig } = require('../configs/auth');
+const { jwt } = require('../configs/auth');
 
 function getAuthConfig(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -10,19 +10,18 @@ function getAuthConfig(request, response, next) {
   }
 
   const [, token] = authHeader.split(" ");
-  console.log(token)
+  console.log(token);
 
   try {
-    const { sub: user_id } = verify(token, authConfig.jwt.secret);
+      const { sub: user_id } = verify(token, jwt.secret);
+      request.user = {
+          id: Number(user_id)
+        }
 
-    request.user = {
-        id: Number(user_id)
-      }
-
-      return next()
-  } catch {
-    throw new AppError("JWT Token invalido", 401)
-  }
+      return response.json()
+    } catch {
+        throw new AppError("JWT Token invalido", 401)
+    }
 }
 
 module.exports = getAuthConfig;

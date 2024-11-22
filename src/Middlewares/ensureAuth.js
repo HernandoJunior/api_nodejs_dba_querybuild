@@ -18,9 +18,9 @@ function getAuthConfig(request, response, next) {
           id: Number(user_id)
         }
 
-      return response.json()
+      return next()
     } catch {
-        throw new AppError("JWT Token invalido", 401)
+        throw new AppError("JWT Token invalido", 401) 
     }
 }
 

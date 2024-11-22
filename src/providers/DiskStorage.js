@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const uploadConfig = require("../configs/upload");
 
+//Clase onde alteramos e removemos a imagem
 class DiskStorage {
   async saveFile(file){
     await fs.promises.rename(
@@ -15,13 +16,17 @@ class DiskStorage {
 
   async deleteFile(file){
     const filePath = path.resolve(uploadConfig.UPLOADS_FOLDER, file)
+    
+    //VERIFICANDO SE O ARQUIVO EXISTE NO DISCO
     try {
+      //retorna o status do aqruivo
       await fs.promises.stat(filePath)
     } catch {
-      return
+      return;
     }
 
     await fs.promises.unlink(filePath)
+    //REMOVENDO ARQUIVO DO DISCO
   }
 }
 

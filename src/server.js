@@ -1,3 +1,4 @@
+
 require('express-async-errors')
 
 const migrationRun = require("./database/sqlite/migrations")
@@ -12,7 +13,7 @@ const app = express()
 app.use(express.json())
 
 
-//Usando as rotas criadas
+// Usando as rotas criadas
 app.use(routes)
 
 
@@ -33,9 +34,9 @@ app.use(( error, request, response, next) => {
     })
   })
 
-  
+  const PORT = 3000;
 
-const PORT = 3333
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+

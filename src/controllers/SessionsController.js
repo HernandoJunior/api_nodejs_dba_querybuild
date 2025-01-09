@@ -1,9 +1,11 @@
-const knex = require('../database/knex');
-const AppError = require('../utils/AppError').default;
-const { compare } = require('bcryptjs');
+import knex from '../database/knex/index.js';
+import AppError from '../utils/AppError.js';
+import compare from 'bcryptjs';
 
-const authConfig = require('../configs/auth')
-const { sign } = require('jsonwebtoken');
+import config from '../configs/auth.js';
+import jwtToken from 'jsonwebtoken';
+
+import pkg from 'bcryptjs';
 
 class SessionsController {
   async create(request, response){
@@ -15,20 +17,23 @@ class SessionsController {
       throw new AppError("Email e/ou senha incorretos", 401);
     }
 
-    const checkPassword = await compare(password, user.password);
+    const checkPassword = await pkg.compare(password, user.password);
 
     if(!checkPassword){
       throw new AppError("Email e/ou senha incorretos", 401);
     }
     
-    const { secret, expiresIn} = authConfig.jwt
-    const token = sign({}, secret, {
+    const { secret, expiresIn } = config.jwt;
+
+    const token = jwtToken.sign({}, secret, {
       subject: String(user.id),
       expiresIn
     })
+
+    console.log(jwtToken)
 
     return response.json({ user, token });
   }
 }
 
-module.exports = SessionsController;
+export default SessionsController;

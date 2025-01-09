@@ -1,11 +1,11 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
 const sessionRoutes = Router();
 
-const sessionsController = require("../controllers/SessionsController");
+import sessionsController from "../controllers/SessionsController.js";
 //instanciando o arquivo UsersControllers
 const SessionsController = new sessionsController();
 
 sessionRoutes.post('/', SessionsController.create)
 
-module.exports = sessionRoutes;
+export default sessionRoutes;

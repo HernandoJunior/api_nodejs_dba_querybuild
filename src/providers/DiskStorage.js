@@ -1,21 +1,26 @@
-//MANIPULAÇÃO DE ARQUIVOS
-const fs = require("fs");
-//NAVEGAÇÃO PELOS DIRETORIOS
-const path = require("path");
-const uploadConfig = require("../configs/upload");
+//MODULO PARA MANIPULAÇÃO DE ARQUIVOS
+import fs from "fs";
 
-//Clase onde alteramos e removemos a imagem
+//NAVEGAÇÃO PELOS DIRETORIOS
+import path from "path";
+import TMP_FOLDER from "../configs/upload.js";
+
+
+//Clase onde salvamos e removemos a imagem
 class DiskStorage {
+  //Salvando o arquivo na pasta principal
   async saveFile(file){
+    //RENAME RENOMEIA OU MOVE OS ARQUIVOS
     await fs.promises.rename(
       //MUDANDO ARQUIVO DE LOCAL (DA PASTA TEMPORARIA PARA A PASTA DEFINITIVA)
-      path.resolve(uploadConfig.TMP_FOLDER, file),
-      path.resolve(uploadConfig.UPLOADS_FOLDER, file)
+      path.resolve(TMP_FOLDER, file),
+      path.resolve(UPLOADS_FOLDER, file)
     )
   }
 
+  //Deletando o arquivo da pagina principal
   async deleteFile(file){
-    const filePath = path.resolve(uploadConfig.UPLOADS_FOLDER, file)
+    const filePath = path.resolve(UPLOADS_FOLDER, file)
     
     //VERIFICANDO SE O ARQUIVO EXISTE NO DISCO
     try {
@@ -30,4 +35,4 @@ class DiskStorage {
   }
 }
 
-module.exports = DiskStorage;
+export default DiskStorage;

@@ -10,5 +10,4 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 `
-
-module.exports = createUsers
+export default createUsers

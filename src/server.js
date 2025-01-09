@@ -1,16 +1,17 @@
 
-require('express-async-errors')
+import 'express-async-errors'
 
-const migrationRun = require("./database/sqlite/migrations")
+import migrationRun from "./database/sqlite/migrations/index.js"
 
-const AppError = require('./utils/AppError')
+import AppError from './utils/AppError.js'
 
-const express = require('express')
+import express, { json } from 'express'
 //Automaticamente ele identifica o arquivo index como principal
-const routes = require('./routes')
+import routes from './routes/index.js'
+import { nextTick } from 'process'
 
 const app = express()
-app.use(express.json())
+app.use(json())
 
 
 // Usando as rotas criadas
@@ -20,19 +21,19 @@ app.use(routes)
 migrationRun()
 
 // CRIAÇÃO DA MENSAGEM DE ERROR
-app.use(( error, request, response, next) => {
-  if(!error instanceof AppError){
-    return response.status(error.statusCode).json({
-        status: "error",
-        message: error.message,
-    })
-  }
+// app.use(( error, request, response, next) => {
+//   if(!error instanceof AppError){
+//     return response.status(error.statusCode).json({
+//         status: "error",
+//         message: error.message,
+//     })
+//   }
 
-  return response.status(error.statusCode).json({
-    status: "error",
-    message: `${error.message}`,
-    })
-  })
+//   return response.status(error.statusCode).json({
+//     status: "error",
+//     message: `${error.message}`,
+//     })
+//   })
 
   const PORT = 3000;
 

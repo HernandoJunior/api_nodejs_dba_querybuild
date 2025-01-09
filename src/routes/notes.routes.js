@@ -1,9 +1,9 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
 const notesRoute = Router();
-const getAuthConfig = require('../Middlewares/ensureAuth');
+import getAuthConfig from '../Middlewares/ensureAuth.js';
 
-const notesController = require("../controllers/NotesController");
+import notesController from "../controllers/NotesController.js";
 //instanciando o arquivo UsersControllers
 const NotesController = new notesController();
 
@@ -17,4 +17,4 @@ notesRoute.delete('/:id', NotesController.delete)
 notesRoute.get('/', NotesController.index)
 
 
-module.exports = notesRoute;
+export default notesRoute;

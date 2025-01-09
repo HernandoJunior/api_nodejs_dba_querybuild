@@ -1,8 +1,8 @@
-const Router = require("express");
-const userRouter = require('./users.routes');
-const notesRoute = require("./notes.routes");
-const tagsRouter = require("./tags.routes")
-const sessionRoutes = require("./sessions.routes")
+import Router from "express";
+import userRouter from './users.routes.js';
+import notesRoute from "./notes.routes.js";
+import tagsRouter from "./tags.routes.js";
+import sessionRoutes from "./sessions.routes.js";
 
 const routes = Router();
 //userRouter sendo chamada quando utilizar a rota /users
@@ -11,4 +11,4 @@ routes.use("/sessions", sessionRoutes);
 routes.use("/notes", notesRoute);
 routes.use("/tags", tagsRouter);
 
-module.exports = routes;
+export default routes;

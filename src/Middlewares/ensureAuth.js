@@ -1,6 +1,6 @@
-const { verify } = require('jsonwebtoken');
-const AppError = require('../utils/AppError');
-const { jwt } = require('../configs/auth');
+import pkg from 'jsonwebtoken';
+import AppError from '../utils/AppError.js';
+import config from '../configs/auth.js';
 
 function getAuthConfig(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -10,13 +10,13 @@ function getAuthConfig(request, response, next) {
   }
 
   const [, token] = authHeader.split(" ");
-  console.log(token);
 
   try {
-      const { sub: user_id } = verify(token, jwt.secret);
+      const { sub: user_id } = pkg.verify(token, config.jwt.secret);
       request.user = {
           id: Number(user_id)
         }
+        console.log(request.user)
 
       return next()
     } catch {
@@ -24,4 +24,4 @@ function getAuthConfig(request, response, next) {
     }
 }
 
-module.exports = getAuthConfig;
+export default getAuthConfig;

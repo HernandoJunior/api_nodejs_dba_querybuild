@@ -1,14 +1,14 @@
-const express = require('express');
-const usersRoutes = express.Router();
+import { Router } from 'express';
+const usersRoutes = Router();
 
-const UsersControllers = require("../controllers/UsersControllers")
-const UserAvatar = require("../controllers/UserAvatarController")
+import UsersControllers from "../controllers/UsersControllers.js";
+import UserAvatar from "../controllers/UserAvatarController.js";
 
-const getAuthConfig = require('../Middlewares/ensureAuth');
+import getAuthConfig from '../Middlewares/ensureAuth.js';
 
-const uploarConfig = require('../configs/upload')
-const multer = require('multer');
-const upload = multer(uploarConfig.MULTER)
+import MULTER from '../configs/upload.js';
+import multer from 'multer';
+const upload = multer(MULTER)
 
 //instanciando o arquivo UsersControllers
 const constrollerUser = new UsersControllers();
@@ -19,4 +19,4 @@ usersRoutes.post('/', constrollerUser.create)
 usersRoutes.put('/', getAuthConfig, constrollerUser.uptade)
 usersRoutes.patch('/avatar', getAuthConfig, upload.single("avatar"), userAvatarController.uptade)
 
-module.exports = usersRoutes;
+export default usersRoutes;

@@ -1,5 +1,5 @@
-const sqliteConnection = require("../../sqlite");
-const createUsers = require('./createUsers.js');
+import sqliteConnection from "../../sqlite/index.js";
+import createUsers from './createUsers.js';
 
 async function migrationRun(){
   const schemas = [
@@ -11,4 +11,4 @@ async function migrationRun(){
   .catch(error => console.error(error))
 }
 
-module.exports = migrationRun
+export default migrationRun;

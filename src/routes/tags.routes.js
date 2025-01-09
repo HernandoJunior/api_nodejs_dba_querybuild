@@ -1,13 +1,13 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
 const tagsRoute = Router();
-const getAuthConfig = require('../Middlewares/ensureAuth');
+import getAuthConfig from '../Middlewares/ensureAuth.js';
 
-const tagsController = require("../controllers/TagsControllers");
+import tagsController from "../controllers/TagsControllers.js";
 //instanciando o arquivo UsersControllers
 const TagsController = new tagsController();
 
 tagsRoute.get('/', getAuthConfig, TagsController.index)
 
 
-module.exports = tagsRoute;
+export default tagsRoute;

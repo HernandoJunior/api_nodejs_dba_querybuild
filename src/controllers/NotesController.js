@@ -1,4 +1,4 @@
-const knex = require("../database/knex")
+import knex from "../database/knex/index.js";
 
 class NotesController {
   async create(request, response){
@@ -97,4 +97,4 @@ class NotesController {
   }
 }
 
-module.exports = NotesController;
+export default NotesController;

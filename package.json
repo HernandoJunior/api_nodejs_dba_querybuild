@@ -2,6 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "API Desenvolvida no explorer RocketSeat",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node ./src/server.js",

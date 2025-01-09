@@ -1,22 +1,23 @@
-const DiskStorage = require('../providers/DiskStorage');
-const knex = require('../database/knex');
-const AppError = require('../utils/AppError')
+import DiskStorage from '../providers/DiskStorage.js';
+import knex from '../database/knex/index.js';
+import AppError from'../utils/AppError.js'
 
 class UserAvatar{
   async uptade(request, response) {
-    const user_id = request.user.id;
-    const avatarFileName = request.file.file_name;
+    console.log(request)
+    const user_id = Number(request.user.id);
+    const avatarFileName = request.file.originalname;
 
     const diskStorage = new DiskStorage();
 
-    const user = (await knex('users').where({ id : user_id })).first();
+    const user = await knex('users').where({ id : user_id }).first();
     console.log(user_id, avatarFileName);
       
       if(!user){
         throw new AppError("Somente usuarios autenticados podem mudar o avatar", 401);
       }
 
-      const filename = diskStorage.saveFile(avatarFileName);
+      const filename = await diskStorage.SaveFile(avatarFilename)
       user.avatar = filename;
 
       if (user.avatar) {
@@ -29,4 +30,4 @@ class UserAvatar{
   }
 }
 
-module.exports = UserAvatar;
+export default UserAvatar;

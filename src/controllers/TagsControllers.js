@@ -1,4 +1,4 @@
-const knex = require('../database/knex')
+import knex from '../database/knex/index.js';
 
 class TagsController {
   async index (request, response){
@@ -11,4 +11,4 @@ class TagsController {
   }
 }
 
-module.exports = TagsController;
+export default TagsController;

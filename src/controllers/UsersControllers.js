@@ -1,6 +1,6 @@
-const { hash, compare } = require('bcryptjs')
-const AppError = require("../utils/AppError")
-const sqliteConnection = require('../database/sqlite')
+import pkg from 'bcryptjs';
+import AppError from "../utils/AppError.js";
+import sqliteConnection from '../database/sqlite/index.js'
 
 class UsersControllers{
   async create(request, response) {
@@ -12,25 +12,26 @@ class UsersControllers{
       throw new AppError("Este email já está em uso")
     }
 
-    const hashedPassword = await hash(password, 8)
+    const hashedPassword = await pkg.hash(password, 8)
 
     database.run("INSERT INTO users ( name, email, password) VALUES (?, ?, ?)",
     [ name, email, hashedPassword ])
 
     return response.status(201).json() 
 
-  //   if (!name){
-  //     throw new AppError("O nome é obrigatório");
-  //   }
+    if (!name){
+      throw new AppError("O nome é obrigatório");
+    }
 
-  //   //devolvendo a resposta para req com status
-  //   response.send('Usuario cadastrado com sucesso!')
+    //devolvendo a resposta para req com status
+    response.send('Usuario cadastrado com sucesso!')
   }
 
   async uptade(request, response) {
     console.log("Cheguei no uptade")
     const { name, email, password, oldPassword } = request.body
-    const { user_id } = request.user.id
+    const { user_id } = Number(request.user.id)
+    console.log(user_id)
 
     const database = await sqliteConnection()
     const user = await database.get("SELECT * FROM users WHERE id = (?)", [ user_id ])
@@ -52,13 +53,13 @@ class UsersControllers{
     }
 
     if(password && oldPassword){
-      const checkOldPassowrd = await compare(oldPassword, user.password)
+      const checkOldPassowrd = await pkg.compare(oldPassword, user.password)
 
       if(!checkOldPassowrd){
         throw new AppError("Senha não confere com a senha antiga", 400)
       }
 
-      user.password = await hash(password, 8)
+      user.password = await pkg.hash(password, 8)
     }
 
     await database.run(
@@ -76,5 +77,4 @@ class UsersControllers{
     })
   }
 }
-
-module.exports = UsersControllers;
+export default UsersControllers;

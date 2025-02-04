@@ -4,7 +4,7 @@ import config from '../configs/auth.js';
 
 function getAuthConfig(request, response, next) {
   const authHeader = request.headers.authorization;
-  
+
   if (!authHeader) {
     throw new AppError("JWT Token não informado", 401);
   }
@@ -12,16 +12,20 @@ function getAuthConfig(request, response, next) {
   const [, token] = authHeader.split(" ");
 
   try {
-      const { sub: user_id } = pkg.verify(token, config.jwt.secret);
-      request.user = {
-          id: Number(user_id)
-        }
-        console.log(request.user)
+    const decoded = pkg.verify(token, config.jwt.secret);
+    console.log("Token decodificado:", decoded); // Log para verificar o conteúdo do token
 
-      return next()
-    } catch {
-        throw new AppError("JWT Token invalido", 401) 
-    }
+    const { sub: user_Id } = decoded; // A variável user_id será extraída do campo 'sub'
+
+    request.user = {
+      id: Number(user_Id), // Converte para número, caso necessário
+    };
+
+    return next();
+  } catch (error) {
+    console.log("Erro ao verificar o token:", error.message);
+    throw new AppError("JWT Token inválido", 401);
+  }
 }
 
 export default getAuthConfig;

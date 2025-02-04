@@ -17,6 +17,6 @@ const userAvatarController = new UserAvatar();
 
 usersRoutes.post('/', constrollerUser.create)
 usersRoutes.put('/', getAuthConfig, constrollerUser.uptade)
-usersRoutes.patch('/avatar', getAuthConfig, upload.single("avatar"), userAvatarController.uptade)
+usersRoutes.patch('/avatar', getAuthConfig, upload.single("avatar"), userAvatarController.update)
 
 export default usersRoutes;

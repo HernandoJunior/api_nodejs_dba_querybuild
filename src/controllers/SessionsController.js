@@ -1,6 +1,5 @@
 import knex from '../database/knex/index.js';
 import AppError from '../utils/AppError.js';
-import compare from 'bcryptjs';
 
 import config from '../configs/auth.js';
 import jwtToken from 'jsonwebtoken';
@@ -11,7 +10,7 @@ class SessionsController {
   async create(request, response){
     const { email, password } = request.body;
 
-    const user = await knex("users").where({ email }).first()
+    const user = await knex("users").where({ email }).first();
 
     if(!user){
       throw new AppError("Email e/ou senha incorretos", 401);
@@ -26,11 +25,11 @@ class SessionsController {
     const { secret, expiresIn } = config.jwt;
 
     const token = jwtToken.sign({}, secret, {
-      subject: String(user.id),
+      subject: String(user.Id),
       expiresIn
     })
-
-    console.log(jwtToken)
+    
+    console.log("Id após criação do token:", user.Id, token);
 
     return response.json({ user, token });
   }

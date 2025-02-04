@@ -1,32 +1,33 @@
 import DiskStorage from '../providers/DiskStorage.js';
 import knex from '../database/knex/index.js';
-import AppError from'../utils/AppError.js'
+import AppError from '../utils/AppError.js';
 
-class UserAvatar{
-  async uptade(request, response) {
-    console.log(request)
-    const user_id = Number(request.user.id);
-    const avatarFileName = request.file.originalname;
+class UserAvatar {
+  async update( request, response ){
+    const user_id = request.user.id;
+    const avatarFilename = request.file.filename;
 
-    const diskStorage = new DiskStorage();
+    console.log(request);
+    const diskStorage = new DiskStorage()
 
-    const user = await knex('users').where({ id : user_id }).first();
-    console.log(user_id, avatarFileName);
-      
-      if(!user){
-        throw new AppError("Somente usuarios autenticados podem mudar o avatar", 401);
-      }
+    const user = await knex("users").where({id: user_id}).first();
 
-      const filename = await diskStorage.SaveFile(avatarFilename)
-      user.avatar = filename;
+    if(!user){
+        throw new AppError("Usuário não encontrado", 401);
+    }
 
-      if (user.avatar) {
-        await diskStorage.deleteFile(avatarFileName);
-      }
+    if(user.avatar){
+        await diskStorage.deleteFile(user.avatar);
+    }
 
-      await knex("users").update(user).where({ id : user_id })
-      
-      return response.json(user)
+    const filename = await diskStorage.saveFile(avatarFilename);
+    consolelog(filename);
+
+    user.avatar = filename;
+
+    await knex("users").update(user).where({id: user_id});
+
+    return response.json(user)
   }
 }
 

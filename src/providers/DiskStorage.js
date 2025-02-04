@@ -3,19 +3,41 @@ import fs from "fs";
 
 //NAVEGAÇÃO PELOS DIRETORIOS
 import path from "path";
-import TMP_FOLDER from "../configs/upload.js";
+import uploadConfig from "../configs/upload.js";
+
+const { TMP_FOLDER, UPLOADS_FOLDER } = uploadConfig;
 
 
 //Clase onde salvamos e removemos a imagem
 class DiskStorage {
-  //Salvando o arquivo na pasta principal
-  async saveFile(file){
-    //RENAME RENOMEIA OU MOVE OS ARQUIVOS
-    await fs.promises.rename(
-      //MUDANDO ARQUIVO DE LOCAL (DA PASTA TEMPORARIA PARA A PASTA DEFINITIVA)
-      path.resolve(TMP_FOLDER, file),
-      path.resolve(UPLOADS_FOLDER, file)
-    )
+  async saveFile(file) {
+    const tempFilePath = path.resolve(TMP_FOLDER, file);
+
+    const fileExists = fs.existsSync(tempFilePath);
+    console.log("O arquivo existe?", fileExists);
+  
+    if (!fileExists) {
+      throw new Error(`O arquivo ${file} não foi encontrado na pasta temporária!`);
+    }
+    //Salvando o arquivo na pasta principal
+    // Caminho do arquivo na pasta temporária
+    const uploadFilePath = path.resolve(UPLOADS_FOLDER, file); // Caminho do arquivo na pasta final
+
+    // Verificar se os caminhos de origem e destino são diferentes
+    if (tempFilePath === uploadFilePath) {
+      throw new Error('O arquivo de origem e destino não podem ser o mesmo!');
+    }
+
+    // Garantir que a pasta de destino exista
+    if (!fs.existsSync(UPLOADS_FOLDER)) {
+      fs.mkdirSync(UPLOADS_FOLDER, { recursive: true });
+    }
+
+    // Mover o arquivo
+    console.log('Movendo arquivo de:', tempFilePath, 'para:', uploadFilePath);
+    await fs.promises.rename(tempFilePath, uploadFilePath);
+
+    return file;
   }
 
   //Deletando o arquivo da pagina principal

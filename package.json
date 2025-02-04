@@ -12,8 +12,10 @@
   "author": "Hernando Junior",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "express-async-errors": "^3.1.1",
     "js": "^0.1.0",
